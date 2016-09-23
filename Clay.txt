@@ -1,0 +1,6 @@
+account.name=Savings
+account.currentBalance=240.66192336910862
+account.type=2
+account.name=Checking
+account.currentBalance=200.0
+account.type=1
