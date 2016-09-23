@@ -2,9 +2,7 @@ package com.tiy.bank;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-/**
- * Created by Brett on 8/19/16.
- */
+
 public class Day10Runner {
     public static boolean runInterestThread = true;
 
