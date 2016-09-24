@@ -11,11 +11,6 @@ public abstract class BankAccount{
         return accountName;
     }
 
-//	public BankAccount(String accountName, double balance) {
-//		this.accountName = accountName;
-//		this.balance = balance;
-//	}
-
 
     public int getType() {
         return type;

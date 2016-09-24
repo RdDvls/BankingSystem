@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
-import java.util.StringJoiner;
 
 
 public class Bank {
@@ -28,7 +27,8 @@ public class Bank {
         int accountChoice;
         double initialDeposit;
         int index = 1;
-        System.out.println("Please choose customer:");
+        System.out.println("Please select a customer:");
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~\n");
         for (Customer currentCustomer : accountHolders) {
             System.out.println(index + ": " + currentCustomer.getUserName());
             index++;
@@ -38,7 +38,7 @@ public class Bank {
 
 
         while (true) {
-            System.out.println("Please choose an account to open");
+            System.out.println("Please choose an account to open\n");
             System.out.println("1.Checking");
             System.out.println("2.Savings");
             System.out.println("3.Retirement");
@@ -51,7 +51,7 @@ public class Bank {
                 String acctName = inputScanner.nextLine();
                 System.out.println("How much money would you like to put into your account?\n");
                 initialDeposit = Double.valueOf(inputScanner.nextLine());
-                myCustomer.customerAccounts.put(acctName, new Checking(acctName, initialDeposit, 1));
+                myCustomer.customerAccounts.put(acctName, new Checking(acctName, initialDeposit,1));
                 System.out.println(myCustomer.customerAccounts.get(acctName).getBalance());
 
             } else if (accountChoice == 2) {
@@ -136,7 +136,7 @@ public class Bank {
 
             BankAccount userChosenAccount = myCustomer.customerAccounts.get(userChoice);
             if(userChosenAccount == null) {
-                System.out.println("Unknown Account beep boop beep");
+                System.out.println("Try again");
             } else {
                 while(true) {
                     System.out.println("What would you like to do?");
@@ -146,7 +146,6 @@ public class Bank {
                     System.out.println("4.Transfer between accounts");
                     System.out.println("========");
                     System.out.println("0.Exit");
-                    System.out.println("========");
                     int bankingChoice = Integer.valueOf(inputScanner.nextLine());
                     if(bankingChoice == 1) {
                         System.out.println("How much would you like to deposit?\n");
@@ -169,7 +168,7 @@ public class Bank {
                         System.out.println("We will transfer to " + transferChoice);
                         BankAccount transferAccount = myCustomer.customerAccounts.get(transferChoice);
                         if (transferAccount == null) {
-                            System.out.println("Beep Boop Beep Something happened\n");
+                            System.out.println("No such account exist\n");
                             break;
                         } else
                             userChosenAccount.withdraw(toTransfer);
@@ -204,14 +203,14 @@ public class Bank {
             }
             bankWriter.close();
         } catch (Exception exception){
-            System.out.println("Something happened D'=");
+            System.out.println("Bank Error.");
             exception.printStackTrace();
         } finally {
             if(bankWriter != null) {
                 try {
                     bankWriter.close();
                 } catch (Exception ex){
-                    System.out.println("Something DEFINITELY happened");
+                    System.out.println("Bank Error");
                     ex.printStackTrace();
                 }
             }
@@ -228,18 +227,14 @@ public class Bank {
                 String[] currName = nextLine.split(",");
                 for (String currentName : currName) {
                     Customer myCustomer = new Customer(currentName);
-                    customerAccounts = new HashMap<String, BankAccount>();
+                    customerAccounts = new HashMap<>();
                     accountHolders.add(myCustomer);
                     File accountFile = new File(currentName + ".txt");
                     Scanner accountScanner = new Scanner(accountFile);
                     while(accountScanner.hasNext()) {
-                        // fist line is account name
                         String accountName = accountScanner.nextLine().split("=")[1];
-                        // second line is balance
                         double balance = Double.valueOf(accountScanner.nextLine().split("=")[1]);
-                        // third line is type
                         int type = Integer.valueOf(accountScanner.nextLine().split("=")[1]);
-
                         if (type == 1) {
                             BankAccount myAccount = new Checking(accountName, balance, type);
                             customerAccounts.put(accountName, myAccount);
@@ -250,16 +245,14 @@ public class Bank {
                             BankAccount myAccount = new Retirement(accountName, balance, type);
                             customerAccounts.put(accountName, myAccount);
                         }
-
                         System.out.println("Recovered account!");
-
                     }
                     myCustomer.setCustomerAccounts(customerAccounts);
                 }
             }
 
         } catch (IOException IoEx){
-            System.out.println("Now why would you do a thing like that?");
+            System.out.println("No Files in System");
             IoEx.printStackTrace();
         }
 
